@@ -1,0 +1,76 @@
+NAME="cross-newlib"
+VERSION=2.2.0
+RELEASE=1
+CATEGORY="Devel"
+SUMMARY="Newlib for embedded toolchains"
+DESCRIPTION="Assember, linker, and other binary utilities required for the
+Newlib-based embedded cross-compiling toolchains."
+HOMEPAGE="http://sourceware.org/newlib/"
+SRC_URI="mirror://sourceware/newlib/newlib-${VERSION}.tar.gz"
+SRC_DIR="newlib-${VERSION}"
+PATCH_URI="
+	2.2.0-libgloss-DESTDIR.patch
+	2.2.0-sparc64.patch
+"
+
+# avr-elf:  https://gcc.gnu.org/bugzilla/show_bug.cgi?id=64401
+# bfin-{elf,rtems}:  https://gcc.gnu.org/bugzilla/show_bug.cgi?id=63681
+# fr30-elf: https://gcc.gnu.org/bugzilla/show_bug.cgi?id=64408
+# iq2000-elf:  https://gcc.gnu.org/bugzilla/show_bug.cgi?id=64400
+# m32c-{elf,rtems}:  https://gcc.gnu.org/bugzilla/show_bug.cgi?id=64403
+# mep-elf: https://gcc.gnu.org/bugzilla/show_bug.cgi?id=64402
+# or1k-elf: GCC 5.0 ?
+# tic6x-elf: see bfin
+# xstormy16-elf: https://gcc.gnu.org/bugzilla/show_bug.cgi?id=64407
+targets=(aarch64-elf aarch64_be-elf arm-eabi cr16-elf cris-elf
+	 epiphany-elf fido-elf frv-elf h8300-elf i386-elf ia64-elf
+	 lm32-elf m32r-elf m68k-elf mcore-elf
+	 microblaze-elf mips-elf mips64-elf mn10300-elf moxie-elf msp430-elf
+	 nds32be-elf nds32le-elf nios2-elf powerpc-eabi powerpc-eabialtivec
+	 powerpc-eabispe powerpcle-elf powerpcle-eabi rl78-elf rx-elf sh-elf
+	 sparc-elf sparc64-elf v850-elf x86_64-elf
+	 spu-elf mmix)
+targets+=(arm-rtems avr-rtems h8300-rtems i386-rtems lm32-rtems
+	 m32r-rtems m68k-rtems microblaze-rtems mips-rtems
+	 moxie-rtems nios2-rtems powerpc-rtems sh-rtems sparc-rtems
+	 sparc64-rtems v850-rtems)
+
+PKG_NAMES="${NAME}-common"
+cross_newlib_common_CONTENTS="usr/share/doc/"
+
+for tgt in ${targets[*]}
+do
+	PKG_NAMES+=" ${tgt}-newlib"
+	declare ${tgt/-/_}_newlib_SUMMARY="Newlib for ${tgt} toolchain"
+	declare ${tgt/-/_}_newlib_REQUIRES=${NAME}-common
+	declare ${tgt/-/_}_newlib_CONTENTS="usr/$tgt/sys-include/ usr/$tgt/lib/"
+done
+
+src_compile() {
+	CYGCONF_SOURCE=${S}
+
+	for tgt in ${targets[*]}
+	do
+		[ ! -d ${B}/$tgt ] || continue
+		mkdir -p ${B}/$tgt
+		pushd ${B}/$tgt
+		cygconf --target=$tgt --enable-multilib
+		cygmake && touch ../$tgt.stamp
+#		make ${MAKEOPTS} -k && touch ../$tgt.stamp || true
+		popd
+	done
+}
+
+
+src_install() {
+	for tgt in ${targets[*]}
+	do
+		pushd ${B}/$tgt
+		cyginstall -j1
+		mv ${D}/usr/$tgt/{,sys-}include
+		popd
+	done
+
+	# conflicts with native cygwin
+	rm -fr ${D}/usr/share/info/
+}

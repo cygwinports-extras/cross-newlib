@@ -1,0 +1,59 @@
+--- origsrc/newlib-2.2.0/libgloss/sparc/crt0.S	2000-03-17 16:48:52.000000000 -0600
++++ src/newlib-2.2.0/libgloss/sparc/crt0.S	2014-12-25 22:03:16.519669400 -0600
+@@ -14,6 +14,9 @@
+  * they apply.
+  */
+ #include "asm.h"
++
++.register %g2, #scratch
++.register %g3, #scratch
+ 	
+ .data
+         .align  8
+--- origsrc/newlib-2.2.0/libgloss/sparc/cygmon-crt0.S	2000-03-17 16:48:52.000000000 -0600
++++ src/newlib-2.2.0/libgloss/sparc/cygmon-crt0.S	2014-12-25 22:04:19.705193000 -0600
+@@ -21,6 +21,9 @@
+ #else
+ #define SAVE_SIZE -64
+ #endif
++
++.register %g2, #scratch
++.register %g3, #scratch
+ 	
+ .data
+         .align  8
+--- origsrc/newlib-2.2.0/libgloss/sparc/erc32-crt0.S	2000-03-17 16:48:52.000000000 -0600
++++ src/newlib-2.2.0/libgloss/sparc/erc32-crt0.S	2014-12-25 22:05:02.699652600 -0600
+@@ -6,6 +6,9 @@
+ 
+ #include "asm.h"
+ 
++	.register %g2, #scratch
++	.register %g3, #scratch
++
+ 	.data
+         .align  8
+ SYM(environ):
+--- origsrc/newlib-2.2.0/libgloss/sparc/traps.S	2000-03-17 16:48:52.000000000 -0600
++++ src/newlib-2.2.0/libgloss/sparc/traps.S	2014-12-25 22:05:55.140311700 -0600
+@@ -15,6 +15,9 @@
+ #include "asm.h"
+ #include "slite.h"
+ 
++	.register %g2, #scratch
++	.register %g3, #scratch
++
+ 	.text
+ 	.align 4
+ 
+--- origsrc/newlib-2.2.0/newlib/libc/sys/sparc64/sys/time.h	2000-02-17 13:39:50.000000000 -0600
++++ src/newlib-2.2.0/newlib/libc/sys/sparc64/sys/time.h	2014-12-25 22:26:34.988252400 -0600
+@@ -1,6 +1,8 @@
+ #ifndef _SYS_TIME_H
+ #define _SYS_TIME_H
+ 
++#include <sys/types.h>	/* for time_t */
++
+ #ifdef __cplusplus
+ extern "C" {
+ #endif
