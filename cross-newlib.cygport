@@ -14,26 +14,21 @@ PATCH_URI="
 "
 
 # avr-elf:  https://gcc.gnu.org/bugzilla/show_bug.cgi?id=64401
-# bfin-{elf,rtems}:  https://gcc.gnu.org/bugzilla/show_bug.cgi?id=63681
+# cr16-elf: https://gcc.gnu.org/bugzilla/show_bug.cgi?id=64424
 # fr30-elf: https://gcc.gnu.org/bugzilla/show_bug.cgi?id=64408
 # iq2000-elf:  https://gcc.gnu.org/bugzilla/show_bug.cgi?id=64400
-# m32c-{elf,rtems}:  https://gcc.gnu.org/bugzilla/show_bug.cgi?id=64403
+# m32c-elf:  https://gcc.gnu.org/bugzilla/show_bug.cgi?id=64403
 # mep-elf: https://gcc.gnu.org/bugzilla/show_bug.cgi?id=64402
 # or1k-elf: GCC 5.0 ?
-# tic6x-elf: see bfin
 # xstormy16-elf: https://gcc.gnu.org/bugzilla/show_bug.cgi?id=64407
-targets=(aarch64-elf aarch64_be-elf arm-eabi cr16-elf cris-elf
+targets=(aarch64-elf aarch64_be-elf arm-eabi bfin-elf cr16-elf cris-elf
 	 epiphany-elf fido-elf frv-elf h8300-elf i386-elf ia64-elf
 	 lm32-elf m32r-elf m68k-elf mcore-elf
 	 microblaze-elf mips-elf mips64-elf mn10300-elf moxie-elf msp430-elf
-	 nds32be-elf nds32le-elf nios2-elf powerpc-eabi powerpc-eabialtivec
-	 powerpc-eabispe powerpcle-elf powerpcle-eabi rl78-elf rx-elf sh-elf
-	 sparc-elf sparc64-elf v850-elf x86_64-elf
-	 spu-elf mmix)
-targets+=(arm-rtems avr-rtems h8300-rtems i386-rtems lm32-rtems
-	 m32r-rtems m68k-rtems microblaze-rtems mips-rtems
-	 moxie-rtems nios2-rtems powerpc-rtems sh-rtems sparc-rtems
-	 sparc64-rtems v850-rtems)
+	 nds32be-elf nds32le-elf nios2-elf powerpc-elf powerpc-eabi
+	 powerpc-eabisim powerpcle-elf powerpcle-eabi powerpcle-eabisim
+	 rl78-elf rx-elf sh-elf sh64-elf sparc-elf sparc64-elf spu-elf
+	 tic6x-elf v850-elf x86_64-elf mmix)
 
 PKG_NAMES="${NAME}-common"
 cross_newlib_common_CONTENTS="usr/share/doc/"
@@ -59,6 +54,11 @@ src_compile() {
 #		make ${MAKEOPTS} -k && touch ../$tgt.stamp || true
 		popd
 	done
+
+	pushd ${tgt}
+#	make -k html || true
+	make -k pdf || true
+	popd
 }
 
 
@@ -70,6 +70,10 @@ src_install() {
 		mv ${D}/usr/$tgt/{,sys-}include
 		popd
 	done
+
+	pushd ${tgt}
+	dodoc ${tgt}/newlib/lib*/lib*.pdf
+	popd
 
 	# conflicts with native cygwin
 	rm -fr ${D}/usr/share/info/
