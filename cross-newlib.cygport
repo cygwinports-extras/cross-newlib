@@ -15,14 +15,13 @@ PATCH_URI="
 
 # avr-elf:  https://gcc.gnu.org/bugzilla/show_bug.cgi?id=64401
 # cr16-elf: https://gcc.gnu.org/bugzilla/show_bug.cgi?id=64424
-# fr30-elf: https://gcc.gnu.org/bugzilla/show_bug.cgi?id=64408
 # iq2000-elf:  https://gcc.gnu.org/bugzilla/show_bug.cgi?id=64400
 # m32c-elf:  https://gcc.gnu.org/bugzilla/show_bug.cgi?id=64403
 # mep-elf: https://gcc.gnu.org/bugzilla/show_bug.cgi?id=64402
 # or1k-elf: GCC 5.0 ?
 # xstormy16-elf: https://gcc.gnu.org/bugzilla/show_bug.cgi?id=64407
 targets=(aarch64-elf aarch64_be-elf arm-eabi bfin-elf cr16-elf cris-elf
-	 epiphany-elf fido-elf frv-elf h8300-elf i386-elf ia64-elf
+	 epiphany-elf fido-elf fr30-elf frv-elf h8300-elf i386-elf ia64-elf
 	 lm32-elf m32r-elf m68k-elf mcore-elf
 	 microblaze-elf mips-elf mips64-elf mn10300-elf moxie-elf msp430-elf
 	 nds32be-elf nds32le-elf nios2-elf powerpc-elf powerpc-eabi
