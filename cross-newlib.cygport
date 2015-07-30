@@ -1,5 +1,5 @@
 NAME="cross-newlib"
-VERSION=2.2.0
+VERSION=2.2.0.20150623
 RELEASE=1
 CATEGORY="Devel"
 SUMMARY="Newlib for embedded toolchains"
@@ -8,26 +8,20 @@ Newlib-based embedded cross-compiling toolchains."
 HOMEPAGE="http://sourceware.org/newlib/"
 SRC_URI="mirror://sourceware/newlib/newlib-${VERSION}.tar.gz"
 SRC_DIR="newlib-${VERSION}"
-PATCH_URI="
-	2.2.0-libgloss-DESTDIR.patch
-	2.2.0-sparc64.patch
-"
 
-# avr-elf:  https://gcc.gnu.org/bugzilla/show_bug.cgi?id=64401
-# cr16-elf: https://gcc.gnu.org/bugzilla/show_bug.cgi?id=64424
 # iq2000-elf:  https://gcc.gnu.org/bugzilla/show_bug.cgi?id=64400
-# m32c-elf:  https://gcc.gnu.org/bugzilla/show_bug.cgi?id=64403
+# m32c-elf: https://gcc.gnu.org/bugzilla/show_bug.cgi?id=64375
 # mep-elf: https://gcc.gnu.org/bugzilla/show_bug.cgi?id=64402
-# or1k-elf: GCC 5.0 ?
-# xstormy16-elf: https://gcc.gnu.org/bugzilla/show_bug.cgi?id=64407
+# sh64-elf: https://gcc.gnu.org/bugzilla/show_bug.cgi?id=67061
 targets=(aarch64-elf aarch64_be-elf arm-eabi bfin-elf cr16-elf cris-elf
 	 epiphany-elf fido-elf fr30-elf frv-elf h8300-elf i386-elf ia64-elf
 	 lm32-elf m32r-elf m68k-elf mcore-elf
 	 microblaze-elf mips-elf mips64-elf mn10300-elf moxie-elf msp430-elf
-	 nds32be-elf nds32le-elf nios2-elf powerpc-elf powerpc-eabi
-	 powerpc-eabisim powerpcle-elf powerpcle-eabi powerpcle-eabisim
-	 rl78-elf rx-elf sh-elf sh64-elf sparc-elf sparc64-elf spu-elf
-	 tic6x-elf v850-elf x86_64-elf mmix)
+	 nds32be-elf nds32le-elf nios2-elf
+	 powerpc-elf powerpc-eabi powerpc-eabisim
+	 powerpcle-elf powerpcle-eabi powerpcle-eabisim
+	 rl78-elf rx-elf sh-elf sparc-elf sparc64-elf spu-elf
+	 tic6x-elf v850-elf x86_64-elf xstormy16-elf mmix)
 
 PKG_NAMES="${NAME}-common"
 cross_newlib_common_CONTENTS="usr/share/doc/"
@@ -49,14 +43,14 @@ src_compile() {
 		mkdir -p ${B}/$tgt
 		pushd ${B}/$tgt
 		cygconf --target=$tgt --enable-multilib
-		cygmake && touch ../$tgt.stamp
-#		make ${MAKEOPTS} -k && touch ../$tgt.stamp || true
+#		cygmake && touch ../$tgt.stamp
+		make ${MAKEOPTS} -k && touch ../$tgt.stamp || true
 		popd
 	done
 
-	pushd ${tgt}
+	pushd ${B}/${tgt}
 #	make -k html || true
-	make -k pdf || true
+#	make -k pdf || true
 	popd
 }
 
@@ -70,8 +64,8 @@ src_install() {
 		popd
 	done
 
-	pushd ${tgt}
-	dodoc ${tgt}/newlib/lib*/lib*.pdf
+	pushd ${B}/${tgt}
+#	dodoc ${B}/${tgt}/newlib/lib*/lib*.pdf
 	popd
 
 	# conflicts with native cygwin
