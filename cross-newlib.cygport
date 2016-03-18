@@ -1,5 +1,5 @@
 NAME="cross-newlib"
-VERSION=2.2.0.20150623
+VERSION=2.3.0.20160226
 RELEASE=1
 CATEGORY="Devel"
 SUMMARY="Newlib for embedded toolchains"
@@ -8,19 +8,23 @@ Newlib-based embedded cross-compiling toolchains."
 HOMEPAGE="http://sourceware.org/newlib/"
 SRC_URI="mirror://sourceware/newlib/newlib-${VERSION}.tar.gz"
 SRC_DIR="newlib-${VERSION}"
+PATCH_URI="
+	2.3.0-arm-includes.patch
+"
 
 # iq2000-elf:  https://gcc.gnu.org/bugzilla/show_bug.cgi?id=64400
 # m32c-elf: https://gcc.gnu.org/bugzilla/show_bug.cgi?id=64375
-# mep-elf: https://gcc.gnu.org/bugzilla/show_bug.cgi?id=64402
 targets=(aarch64-elf aarch64_be-elf arm-eabi bfin-elf cr16-elf cris-elf
 	 epiphany-elf fido-elf fr30-elf frv-elf h8300-elf i386-elf ia64-elf
 	 lm32-elf m32r-elf m68k-elf mcore-elf
 	 microblaze-elf mips-elf mips64-elf mn10300-elf moxie-elf msp430-elf
 	 nds32be-elf nds32le-elf nios2-elf
 	 powerpc-elf powerpc-eabi powerpc-eabisim
-	 powerpcle-elf powerpcle-eabi powerpcle-eabisim
 	 rl78-elf rx-elf sh-elf sh64-elf sparc-elf sparc64-elf spu-elf
 	 tic6x-elf v850-elf x86_64-elf xstormy16-elf mmix)
+#	 powerpcle-elf powerpcle-eabi powerpcle-eabisim
+
+ARCH=noarch
 
 PKG_NAMES="${NAME}-common"
 cross_newlib_common_CONTENTS="usr/share/doc/"
