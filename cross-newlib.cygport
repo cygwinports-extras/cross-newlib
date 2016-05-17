@@ -1,5 +1,5 @@
 NAME="cross-newlib"
-VERSION=2.3.0.20160226
+VERSION=2.4.0
 RELEASE=1
 CATEGORY="Devel"
 SUMMARY="Newlib for embedded toolchains"
@@ -8,9 +8,6 @@ Newlib-based embedded cross-compiling toolchains."
 HOMEPAGE="http://sourceware.org/newlib/"
 SRC_URI="mirror://sourceware/newlib/newlib-${VERSION}.tar.gz"
 SRC_DIR="newlib-${VERSION}"
-PATCH_URI="
-	2.3.0-arm-includes.patch
-"
 
 # iq2000-elf:  https://gcc.gnu.org/bugzilla/show_bug.cgi?id=64400
 # m32c-elf: https://gcc.gnu.org/bugzilla/show_bug.cgi?id=64375
