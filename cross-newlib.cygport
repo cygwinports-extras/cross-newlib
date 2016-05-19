@@ -8,6 +8,7 @@ Newlib-based embedded cross-compiling toolchains."
 HOMEPAGE="http://sourceware.org/newlib/"
 SRC_URI="mirror://sourceware/newlib/newlib-${VERSION}.tar.gz"
 SRC_DIR="newlib-${VERSION}"
+PATCH_URI="2.4.0-ft32-whitespace.patch"
 
 # iq2000-elf:  https://gcc.gnu.org/bugzilla/show_bug.cgi?id=64400
 # m32c-elf: https://gcc.gnu.org/bugzilla/show_bug.cgi?id=64375

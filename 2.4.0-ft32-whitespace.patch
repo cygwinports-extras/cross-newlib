@@ -1,0 +1,48 @@
+--- origsrc/newlib-2.4.0/libgloss/ft32/Makefile.in	2016-03-29 16:33:42.000000000 -0500
++++ src/newlib-2.4.0/libgloss/ft32/Makefile.in	2016-05-19 11:17:43.251666600 -0500
+@@ -84,8 +84,8 @@ SIM_OBJS = fstat.o \
+ all: $(CRT0) $(SIM_BSP)
+ 
+ $(SIM_BSP): $(SIM_OBJS)
+-        $(AR) $(ARFLAGS) $@ $?
+-        $(RANLIB) $@
++	$(AR) $(ARFLAGS) $@ $?
++	$(RANLIB) $@
+ 
+ fstat.o: $(srcdir)/fstat.c
+ getpid.o: $(srcdir)/getpid.c
+@@ -105,17 +105,17 @@ sim-write.o: $(srcdir)/sim-write.S
+ stat.o: $(srcdir)/stat.c
+ 
+ install: $($(CPU)_INSTALL)
+-        $(INSTALL_DATA) $(CRT0) $(DESTDIR)$(tooldir)/lib${MULTISUBDIR}/$(CRT0)
+-        $(INSTALL_DATA) $(SIM_BSP) $(DESTDIR)$(tooldir)/lib${MULTISUBDIR}/$(SIM_BSP)
+-        for x in ${LD_SCRIPTS}; do \
+-          ${INSTALL_DATA} ${srcdir}/$$x $(DESTDIR)${tooldir}/lib/$$x; \
+-        done;
++	$(INSTALL_DATA) $(CRT0) $(DESTDIR)$(tooldir)/lib${MULTISUBDIR}/$(CRT0)
++	$(INSTALL_DATA) $(SIM_BSP) $(DESTDIR)$(tooldir)/lib${MULTISUBDIR}/$(SIM_BSP)
++	for x in ${LD_SCRIPTS}; do \
++	  ${INSTALL_DATA} ${srcdir}/$$x $(DESTDIR)${tooldir}/lib/$$x; \
++	done;
+ 
+ clean mostlyclean:
+-        rm -f *.o *.a
++	rm -f *.o *.a
+ 
+ distclean maintainer-clean realclean: clean
+-        rm -f Makefile config.cache config.log config.status
++	rm -f Makefile config.cache config.log config.status
+ 
+ .PHONY: info dvi doc install-info clean-info
+ info doc dvi:
+@@ -123,7 +123,7 @@ install-info:
+ clean-info:
+ 
+ Makefile: Makefile.in config.status @host_makefile_frag_path@
+-        $(SHELL) config.status
++	$(SHELL) config.status
+ 
+ config.status: configure
+-        $(SHELL) config.status --recheck
++	$(SHELL) config.status --recheck
